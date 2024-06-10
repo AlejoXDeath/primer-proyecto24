@@ -37,20 +37,21 @@ inisiarsesion(){
   //Enviamos la nueva informacion como un nuevo objeto a la colecion de usuario
   this.coleccionIniciosesion.push(credenciales)
   // llamamos a los datos locales que esatn en registro
-  const email = localStorage.getItem('email')
-  const contrase = localStorage.getItem('password')
+const sUsuarioEncontrado = localStorage.getItem(credenciales.email)
 
-  console.log(email)
-  console.log(contrase)
-
-  //condicional para el inicio sesion 
-
-  if(this.inicio.email === email && this.inicio.password === contrase){
-
-    alert("Iniciaste sesion correctamente !!!!!")
-  }else{
-    alert("no se a podido iniciar sesison")
-  }
+if(sUsuarioEncontrado){
+  const oUsuarioEncontrado = JSON.parse(sUsuarioEncontrado)
+  const contrasena = oUsuarioEncontrado.password
+  console.log('contraseña ='+ contrasena)
+  if(contrasena == credenciales.password)
+    alert("Funciona")
+    else{
+      alert("no funciona")
+    }
+} else{
+  console.log('User date not found in local storage')
+}
+const compra = localStorage.getItem('contra')
 
   this.limpiar()
 
