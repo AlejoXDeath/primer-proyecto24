@@ -59,7 +59,7 @@ export class RegistroComponent {
     const res = this.servicioAuth.registrar(credenciales.email, credenciales.password)
     // el metodo THEN es una promesa que devuelve el mismo valor si todo sale ok
     .then(res=> {
-      alert("'Se pudo registrar con éxito! :)");
+      alert("Se pudo registrar con éxito! :)");
 
       // el método NAVIGATE nos redirecciona a otra vista
       this.servicioRutas.navigate(['/inicio']);
@@ -74,7 +74,7 @@ export class RegistroComponent {
 
 
     // Mensaje que saldrá cuando se registre correctamente    
-    alert("¡Te registraste con éxito :)")
+    
 
     // Llamamos a la funcion limpiarinputs() para ejecutarla
     this.limpiarInputs();
