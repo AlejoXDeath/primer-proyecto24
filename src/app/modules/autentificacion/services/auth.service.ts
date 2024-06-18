@@ -15,7 +15,7 @@ export class AuthService {
     return this.auth.createUserWithEmailAndPassword(email, password)
   }
   // FUNCIÓN PARA INICIO DE SESIÓN
-  iniciarsesion(email: string, password: string){
+  iniciarSesion(email: string, password: string){
     // validar la información del usuario -> saber si existe en la colección
     return this.auth.signInWithEmailAndPassword(email, password)
   }
@@ -26,5 +26,20 @@ export class AuthService {
   }
 
   // FUNCIÓN PARA TOMAR EL UID
+  async obtenerUid(){
+    // Nos va a generar una promesa y la constante la va a capturar
+    const user = await this.auth.currentUser;
 
+    /*
+    Si el usuario no respeta la estructura de la interfaz/
+    Si tuvo problemas para el registro -> ej.: mal internet
+    */
+
+    if(user == null){
+      return null;
+    } else {
+      return user.uid;
+    }
+  }
 }
+

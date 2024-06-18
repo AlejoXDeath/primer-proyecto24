@@ -4,6 +4,8 @@ import { Usuario } from 'src/app/models/usuario';
 import { AuthService } from '../../services/auth.service';
 // importamos componente de rutas de angular
 import { Router } from '@angular/router';
+import { FirestoreService } from 'src/app/modules/shared/services/firestore.service';
+
 
 @Component({
   selector: 'app-registro',
@@ -12,6 +14,7 @@ import { Router } from '@angular/router';
 })
 export class RegistroComponent {
   //input de la contraseña para ver los carácteres o no
+
   hide = true;
 
   // ####################################################### Importaciones de interfaz 'Usuario
@@ -30,10 +33,10 @@ export class RegistroComponent {
   coleccionUsuarios: Usuario[] = [];
 
   // ###################################################### Fin importaciones
-
   constructor(
     public servicioAuth: AuthService,
-    public servicioRutas: Router
+    public servicioRutas: Router,
+    public servicioFirestore: FirestoreService
   ){}
 
   // FUNCIÓN PARA EL REGISTRO DE NUEVOS USUARIOS
@@ -84,6 +87,19 @@ export class RegistroComponent {
     console.log(this.coleccionUsuarios);
   }
 
+  /* Funcion que accede a servicio FIREBASE y envia la informacion
+  agrega junto al UID
+  */
+
+  async guardarUsuario(){
+    this.servicioFirestore.agregarUsuario(this.usuarios, this.usuarios.uid)
+    .then(res => {
+      console.log(this.usuarios);
+    })
+    .catch(err => {
+      console.log('Error => ', err)
+    })
+  }
  // Función para vaciar los inputs del registro
   limpiarInputs(){
     /*
