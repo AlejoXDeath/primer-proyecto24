@@ -4,7 +4,10 @@ import { Usuario } from 'src/app/models/usuario';
 import { AuthService } from '../../services/auth.service';
 // importamos componente de rutas de angular
 import { Router } from '@angular/router';
+//servicio de firestore
 import { FirestoreService } from 'src/app/modules/shared/services/firestore.service';
+// importamos paquetería de criptación
+import * as CryptoJS from 'crypto-js';
 
 
 @Component({
@@ -59,7 +62,7 @@ export class RegistroComponent {
       password: this.usuarios.password
     }
 
-    const res = this.servicioAuth.registrar(credenciales.email, credenciales.password)
+    const res = await this.servicioAuth.registrar(credenciales.email, credenciales.password)
     // el metodo THEN es una promesa que devuelve el mismo valor si todo sale ok
     .then(res=> {
       alert("Se pudo registrar con éxito! :)");
@@ -69,22 +72,29 @@ export class RegistroComponent {
     })
     //el método CATCH captura una falla y la vuelve un error cuando la promesa salga mal
     .catch(error =>{
-      alert("Hubo un error al registrar un nuevo usuario :( 1 \n"+error);
+      alert("Hubo un error al registrar un nuevo usuario :( \n"+error);
     })
 
-    // Enviamos la nueva información como un NUEVO OBJETO a la colección de usuarios
-    // this.coleccionUsuarios.push(credenciales)
-
-
-    // Mensaje que saldrá cuando se registre correctamente    
     
+    //constante UID captura el identificado de la BD
+    const uid = await this.servicioAuth.obtenerUid();
 
-    // Llamamos a la funcion limpiarinputs() para ejecutarla
+    this.usuarios.uid = uid;
+    /**
+     * SHA-256: Es un algoritmo de hash seguro que toma una entrada (em este caso la contraseña)
+     * y produce una cadena de caracteres hexadecimal que va a representar a su hash
+     * toString: convierte el resultado en la cadena de caracteres legible
+     */
+    this.usuarios.password = CryptoJS.SHA256(this.usuarios.password).toString();
+
+       // Llamamos a la funcion guardarusuario()
+    this.guardarUsuario();
+        // Llamamos a la funcion limpiarinputs() para ejecutarla
     this.limpiarInputs();
 
     // Mostramos credenciales por consola                                                                                                               
-    console.log(credenciales);
-    console.log(this.coleccionUsuarios);
+    // console.log(credenciales);
+    // console.log(this.coleccionUsuarios);
   }
 
   /* Funcion que accede a servicio FIREBASE y envia la informacion
