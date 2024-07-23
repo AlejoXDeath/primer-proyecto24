@@ -56,7 +56,7 @@ export class RegistroComponent {
     } */
    
 
-    // REGISTRO CON SERVICIO
+    // REGISTRO CON SERVICIO DE AUTH
     const credenciales = {
       email: this.usuarios.email,
       password: this.usuarios.password

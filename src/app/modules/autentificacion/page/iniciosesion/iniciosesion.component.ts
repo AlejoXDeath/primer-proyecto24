@@ -51,11 +51,11 @@ export class IniciosesionComponent {
   */
   // ############################## FIN LOCAL
 
-    constructor(
-      public servicioAuth: AuthService,
-      public servicioFirestore: FirestoreService,
-      public servicioRutas: Router
-    ){}
+  constructor(
+    public servicioAuth: AuthService,
+    public servicioFirestore: FirestoreService,
+    public servicioRutas: Router
+  ) { }
 
   // ################################## INGRESADO
   // Definimos la interfaz de usuario
@@ -104,18 +104,18 @@ export class IniciosesionComponent {
 
     }
       */
-    
+
     const credenciales = {
       email: this.usuarios.email,
       password: this.usuarios.password
     }
 
-    try{
+    try {
       // obtenemos usuario de la BD
       const usuarioBD = await this.servicioAuth.obtenerUsuario(credenciales.email);
 
       // Condicional verificaba que ese usuario de la BD existiera o que sea igual al de nuestra colección
-      if (!usuarioBD || usuarioBD.empty){
+      if (!usuarioBD || usuarioBD.empty) {
         alert("Correo electrónico no está registrado");
         this.limpiarInputs();
         return;
@@ -137,38 +137,38 @@ export class IniciosesionComponent {
       Condicional que compara la contraseña que acabamos de encriptar y que el usuario
       envió con la que recibimos del "usuarioData" 
       */
-      if (hashedPassword !== usuarioData.password){
+      if (hashedPassword !== usuarioData.password) {
         alert("Contraseña incorrecta");
 
         this.usuarios.password = '';
         return;
       }
 
-        const res = await this.servicioAuth.iniciarSesion(credenciales.email, credenciales.password)
-    .then(res => {
-      alert('¡Se pudo ingresar con éxito :)!');
+      const res = await this.servicioAuth.iniciarSesion(credenciales.email, credenciales.password)
+        .then(res => {
+          alert('¡Se pudo ingresar con éxito :)!');
 
-      this.servicioRutas.navigate(['/inicio']);
-    })
-    .catch(err =>{
-      alert('Hubo un problema al iniciar sesión :('+ err);
+          this.servicioRutas.navigate(['/inicio']);
+        })
+        .catch(err => {
+          alert('Hubo un problema al iniciar sesión :(' + err);
 
+          this.limpiarInputs();
+        })
+    } catch (error) {
       this.limpiarInputs();
-    })
-  } catch (error){
-  this.limpiarInputs();
-  }
-
-  
-  }
-    
-    limpiarInputs(){
-
-      const inputs = {
-        email: this.usuarios.email = '',
-        password: this.usuarios.password = ''
-      }
     }
 
+
   }
+
+  limpiarInputs() {
+
+    const inputs = {
+      email: this.usuarios.email = '',
+      password: this.usuarios.password = ''
+    }
+  }
+
+}
 
