@@ -92,9 +92,11 @@ export class RegistroComponent {
         // Llamamos a la funcion limpiarinputs() para ejecutarla
     this.limpiarInputs();
 
+    /*
     // Mostramos credenciales por consola                                                                                                               
     // console.log(credenciales);
     // console.log(this.coleccionUsuarios);
+    */
   }
 
   /* Funcion que accede a servicio FIREBASE y envia la informacion
