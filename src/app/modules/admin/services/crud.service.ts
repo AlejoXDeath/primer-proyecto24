@@ -50,7 +50,7 @@ export class CrudService {
       producto seleccionado y lo actualizamos con el método "update" enviando la
       nueva información
     */
-    return this.database.collection('productos').doc(idProducto).update(nuevaData);
+    return this.database.collection('producto').doc(idProducto).update(nuevaData);
   }
 
 
