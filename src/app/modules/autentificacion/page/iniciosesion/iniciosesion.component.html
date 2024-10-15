@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row">
-        <i class="material-icons" style="font-size: 200px">person</i>
+      <i class="material-icons" style="font-size: 200px">person</i>
 
         <!--Intrese el email-->
         <mat-form-field appearance="fill">
@@ -12,7 +12,7 @@
 
         <!--Ingrese su contraseña-->
         <mat-form-field>
-            <mat-label>HOLA SOY AGUS, te quiero mucho</mat-label>
+            <mat-label>Ingrese su contraseña</mat-label>
             <input [(ngModel)]="usuarios.password" matInput [type]="hide ? 'password' : 'text'"#input minlength="6" required="">
             <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
               <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>

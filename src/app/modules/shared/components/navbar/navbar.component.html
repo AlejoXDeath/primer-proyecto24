@@ -6,6 +6,7 @@
     <mat-menu #seccion="matMenu">
         <button mat-menu-item routerLink="/inicio">Inicio</button>
         <button mat-menu-item [matMenuTriggerFor]="producto">Productos</button>
+        <button mat-menu-item routerLink="/admin">Admin</button>
       </mat-menu>
   
 
@@ -19,6 +20,7 @@
         <button mat-menu-item routerLink="/soporte">soporte</button>
     </mat-menu>
 
+    <button id="menuAdmin" mat-button routerLink="/admin">Admin</button>
 
     <span class="example-spacer"></span>
     <!--Inicio de sesuib y el registro de un nuevo usuario-->
