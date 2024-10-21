@@ -2,20 +2,19 @@ import { Component } from '@angular/core';
 import { Usuario } from 'src/app/models/usuario';
 // IMPORTAMOS SERVICIO DE AUTENTIFICACION
 import { AuthService } from '../../services/auth.service';
-// IMPORTAMOS 
+// IMPORTAMOS
 import { FirestoreService } from 'src/app/modules/shared/services/firestore.service';
 import { Router } from '@angular/router';
 import * as CryptoJS from 'crypto-js';
 import Swal from 'sweetalert2';
 
-
 @Component({
   selector: 'app-iniciosesion',
   templateUrl: './iniciosesion.component.html',
-  styleUrls: ['./iniciosesion.component.css']
+  styleUrls: ['./iniciosesion.component.css'],
 })
 export class IniciosesionComponent {
-  hide = true
+  hide = true;
 
   // ############################### LOCAL
   //  Definimos colección local de usuarios
@@ -57,7 +56,7 @@ export class IniciosesionComponent {
     public servicioAuth: AuthService,
     public servicioFirestore: FirestoreService,
     public servicioRutas: Router
-  ) { }
+  ) {}
 
   // ################################## INGRESADO
   // Definimos la interfaz de usuario
@@ -67,8 +66,8 @@ export class IniciosesionComponent {
     apellido: '',
     email: '',
     rol: '',
-    password: ''
-  }
+    password: '',
+  };
 
   // Función para iniciar sesión
   async iniciarSesion() {
@@ -109,19 +108,21 @@ export class IniciosesionComponent {
 
     const credenciales = {
       email: this.usuarios.email,
-      password: this.usuarios.password
-    }
+      password: this.usuarios.password,
+    };
 
     try {
       // obtenemos usuario de la BD
-      const usuarioBD = await this.servicioAuth.obtenerUsuario(credenciales.email);
+      const usuarioBD = await this.servicioAuth.obtenerUsuario(
+        credenciales.email
+      );
 
       // Condicional verificaba que ese usuario de la BD existiera o que sea igual al de nuestra colección
       if (!usuarioBD || usuarioBD.empty) {
         Swal.fire({
-          title: "¡Oh!",
-          text: "Ese correo electrónico no está registrado",
-          icon: "question"
+          title: '¡Oh!',
+          text: 'Ese correo electrónico no está registrado',
+          icon: 'question',
         });
 
         this.limpiarInputs();
@@ -146,62 +147,55 @@ export class IniciosesionComponent {
       */
       if (hashedPassword !== usuarioData.password) {
         Swal.fire({
-          title: "¡Oh no!",
-          text: "La contraseña ingresada es incorrecta",
-          icon: "error"
+          title: '¡Oh no!',
+          text: 'La contraseña ingresada es incorrecta',
+          icon: 'error',
         });
         this.usuarios.password = '';
         return;
       }
 
-      const res = await this.servicioAuth.iniciarSesion(credenciales.email, credenciales.password)
-        .then(res => {
+      const res = await this.servicioAuth
+        .iniciarSesion(credenciales.email, credenciales.password)
+        .then((res) => {
           Swal.fire({
-            title: "¡Genial!",
-            text: "¡Pudo ingresar con éxito :)!",
-            icon: "success"
+            title: '¡Genial!',
+            text: '¡Pudo ingresar con éxito :)!',
+            icon: 'success',
           });
 
           // Almacenamos y enviamos por parametro el rol de los datos de usuario obtenido
           this.servicioAuth.setUsuarioRol(usuarioData.rol);
 
-          if(usuarioData.rol === "admin"){
-            console.log("Inicio de administrador");
+          if (usuarioData.rol === 'admin') {
+            console.log('Inicio de administrador');
 
             // Si es administrador, redirecciona a la vista de "admin"
             this.servicioRutas.navigate(['/admin']);
           } else {
-            console.log("Inicio de visitante");
+            console.log('Inicio de visitante');
 
-              // Si es otro tipo de usuario, redireccona al "inicio"
+            // Si es otro tipo de usuario, redireccona al "inicio"
             this.servicioRutas.navigate(['/inicio']);
           }
-          
-
-      
         })
-        .catch(err => {
+        .catch((err) => {
           Swal.fire({
-            title: "¡Oh no!",
-            text: "Hubo un problema al iniciar sesión :(",
-            icon: "error"
+            title: '¡Oh no!',
+            text: 'Hubo un problema al iniciar sesión :(',
+            icon: 'error',
           });
           this.limpiarInputs();
-        })
+        });
     } catch (error) {
       this.limpiarInputs();
     }
-
-
   }
 
   limpiarInputs() {
-
     const inputs = {
-      email: this.usuarios.email = '',
-      password: this.usuarios.password = ''
-    }
+      email: (this.usuarios.email = ''),
+      password: (this.usuarios.password = ''),
+    };
   }
-
 }
-
